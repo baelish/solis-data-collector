@@ -1,0 +1,19 @@
+set -euo pipefail
+shopt -s extdebug
+IFS=$'\n\t'
+
+source sdc
+
+SC_KEYID=2424
+SC_KEYSECRET=6680182547
+apiPath="/v1/api/userStationList"
+body='{"pageNo":1,"pageSize":10}'
+dt="Fri, 26 Jul 2019 06:00:46 GMT"
+bodymd5="$(getMD5 "$body")"
+expectedResult="API 2424:nBYQWeuzy3Y+gp67BN8zXTmvSDk="
+
+if [[ "$(calculateAuth "$dt" "$bodymd5" "$apiPath")" != "$expectedResult" ]]; then
+  echo FAIL
+else
+  echo PASS
+fi
